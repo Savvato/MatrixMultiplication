@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:controller="user_interface.Controller" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="501.0"
+      xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="0.0">
+            <children>
+                <Label text="Количество строк матрицы А:" textAlignment="CENTER" />
+                <TextField fx:id="stringsACountField">
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </TextField>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="600.0">
+            <children>
+                <Label text="Количество столбцов матрицы А:" textAlignment="CENTER" />
+                <TextField fx:id="columnsACountField">
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </TextField>
+            </children>
+        </HBox>
+        <Separator prefWidth="200.0" />
+        <HBox alignment="CENTER" layoutX="30.0" layoutY="20.0" prefHeight="40.0" prefWidth="0.0">
+            <children>
+                <Label text="Количество строк матрицы В:" textAlignment="CENTER" />
+                <TextField fx:id="stringsBCountField">
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </TextField>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="30.0" layoutY="60.0" prefHeight="40.0" prefWidth="600.0">
+            <children>
+                <Label text="Количество столбцов матрицы В:" textAlignment="CENTER" />
+                <TextField fx:id="columnsBCountField">
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </TextField>
+            </children>
+        </HBox>
+        <Separator prefWidth="200.0" />
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="0.0">
+            <children>
+                <Label text="Количество нитей:" textAlignment="CENTER" />
+                <TextField fx:id="threadsCountField">
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </TextField>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="0.0">
+            <children>
+                <Button onAction="#calculate" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Расчет">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <Separator prefWidth="200.0" />
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+    </padding>
+</VBox>
