@@ -2,25 +2,16 @@ package matrix;
 
 import matrix.threads.CalculationThread;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class MatrixMultiplicator extends Thread
 {
-    public Matrix matrixA;
-    public Matrix matrixB;
-
+    public ArrayList<CalculationThread> threads = new ArrayList<>();
+    private Matrix matrixA;
+    private Matrix matrixB;
     private double[][] resultMatrix;
-
     private int threadsCount;
-
-    /**
-     * Геттер для матрицы результата
-     *
-     * @return Результатная матрица
-     */
-    public double[][] getResultMatrix() {
-        return this.resultMatrix;
-    }
 
     /**
      * Конструктор Мультипликатора матриц
@@ -35,11 +26,20 @@ public class MatrixMultiplicator extends Thread
         this.threadsCount = threadsCount;
         this.matrixA = new Matrix(stringsA, columnsA);
         this.matrixB = new Matrix(stringsB, columnsB);
-        ;
+
         if (!this.checkAvailabilityForMultiplication()) {
             throw new Exception("Матрицы невозможно перемножить");
         }
         resultMatrix = new double[stringsA][columnsB];
+    }
+
+    /**
+     * Геттер для матрицы результата
+     *
+     * @return Результатная матрица
+     */
+    public double[][] getResultMatrix() {
+        return this.resultMatrix;
     }
 
     /**
@@ -66,10 +66,16 @@ public class MatrixMultiplicator extends Thread
         try {
             this.initializeMatrix();
             PriorityQueue<Integer> queue = this.getQueue();
+
             for (int i = 0; i < this.threadsCount; i++) {
                 CalculationThread calculationThread = new CalculationThread(this.matrixA, this.matrixB, queue, this.resultMatrix);
-                calculationThread.run();
+
+                this.threads.add(calculationThread);
+
+                calculationThread.start();
+
             }
+
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -83,6 +89,4 @@ public class MatrixMultiplicator extends Thread
         }
         return queue;
     }
-
-
 }

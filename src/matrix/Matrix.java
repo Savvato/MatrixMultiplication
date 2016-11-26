@@ -10,11 +10,26 @@ public class Matrix
         this.matrix = new double[strings][columns];
     }
 
+    /**
+     * Перемножение массивов
+     *
+     * @param firstArray  Первый массив
+     * @param secondArray Второй массив
+     * @return Результат перемножения элементов массивов
+     */
+    public static double multipleArrays(double[] firstArray, double[] secondArray) {
+        double result = 0;
+        for (int i = 0; i < firstArray.length; i++) {
+            result += firstArray[i] * secondArray[i];
+        }
+        return result;
+    }
+
     public double[][] getMatrix() {
         return this.matrix;
     }
 
-    public double[] getStringOfMaitrix(int index) {
+    public double[] getStringOfMatrix(int index) {
         return this.matrix[index];
     }
 
@@ -35,19 +50,5 @@ public class Matrix
         MatrixInitializationThread matrixInitializationThread = new MatrixInitializationThread(this.matrix, function);
         matrixInitializationThread.start();
         matrixInitializationThread.join();
-    }
-
-    /**
-     * Перемножение массивов
-     * @param firstArray Первый массив
-     * @param secondArray Второй массив
-     * @return Результат перемножения элементов массивов
-     */
-    public static double multipleArrays(double[] firstArray, double[] secondArray) {
-        double result = 0;
-        for (int i = 0; i < firstArray.length; i++) {
-            result += firstArray[i] * secondArray[i];
-        }
-        return result;
     }
 }

@@ -21,16 +21,18 @@ public class CalculationThread extends Thread
     }
 
     public void run() {
-        synchronized (queue) {
-            while (this.queue.peek() != null) {
-                int stringIndex = this.queue.poll();
-                double[] string = this.matrixA.getStringOfMaitrix(stringIndex);
-                for (int i = 0; i < string.length; i++) {
-                    this.resultMatrix[stringIndex][i] = Matrix.multipleArrays(string, this.matrixB.getColumnOfMatrix(i));
+        while (true) {
+            int stringIndex;
+            synchronized (queue) {
+                if (this.queue.peek() == null) {
+                    break;
                 }
+                stringIndex = this.queue.poll();
+            }
+            double[] string = this.matrixA.getStringOfMatrix(stringIndex);
+            for (int i = 0; i < this.matrixA.getMatrix().length; i++) {
+                this.resultMatrix[stringIndex][i] = Matrix.multipleArrays(string, this.matrixB.getColumnOfMatrix(i));
             }
         }
     }
-
-
 }
