@@ -1,11 +1,13 @@
 package matrix;
 
+import matrix.threads.CalculationThread;
+
 import java.util.PriorityQueue;
 
 public class MatrixMultiplicator extends Thread
 {
-    private Matrix matrixA;
-    private Matrix matrixB;
+    public Matrix matrixA;
+    public Matrix matrixB;
 
     private double[][] resultMatrix;
 
@@ -63,9 +65,10 @@ public class MatrixMultiplicator extends Thread
     public void run() {
         try {
             this.initializeMatrix();
-            PriorityQueue queue = this.getQueue();
+            PriorityQueue<Integer> queue = this.getQueue();
             for (int i = 0; i < this.threadsCount; i++) {
-
+                CalculationThread calculationThread = new CalculationThread(this.matrixA, this.matrixB, queue, this.resultMatrix);
+                calculationThread.run();
             }
         }
         catch (InterruptedException e) {

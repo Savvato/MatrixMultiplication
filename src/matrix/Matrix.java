@@ -1,6 +1,6 @@
 package matrix;
 
-import matrix.threads.MatrixInitialization;
+import matrix.threads.MatrixInitializationThread;
 
 public class Matrix
 {
@@ -12,10 +12,6 @@ public class Matrix
 
     public double[][] getMatrix() {
         return this.matrix;
-    }
-
-    public void setMatrix(double[][] matrix) {
-        this.matrix = matrix;
     }
 
     public double[] getStringOfMaitrix(int index) {
@@ -30,10 +26,28 @@ public class Matrix
         return column;
     }
 
+    /**
+     * Инициализация матрицы в отдельном потоке
+     * @param function Функция расчета значений элементов матрицы
+     * @throws InterruptedException Прерывание потока
+     */
     public void initialize(MatrixCellFunction function) throws InterruptedException {
-        MatrixInitialization matrixInitialization = new MatrixInitialization(this.matrix, function);
-        matrixInitialization.start();
-        matrixInitialization.join();
-        this.matrix = matrixInitialization.getResult();
+        MatrixInitializationThread matrixInitializationThread = new MatrixInitializationThread(this.matrix, function);
+        matrixInitializationThread.start();
+        matrixInitializationThread.join();
+    }
+
+    /**
+     * Перемножение массивов
+     * @param firstArray Первый массив
+     * @param secondArray Второй массив
+     * @return Результат перемножения элементов массивов
+     */
+    public static double multipleArrays(double[] firstArray, double[] secondArray) {
+        double result = 0;
+        for (int i = 0; i < firstArray.length; i++) {
+            result += firstArray[i] * secondArray[i];
+        }
+        return result;
     }
 }
