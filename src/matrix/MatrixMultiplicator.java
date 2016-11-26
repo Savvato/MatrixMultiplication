@@ -1,11 +1,11 @@
 package matrix;
 
-import matrix.threads.MatrixInitialization;
+import java.util.PriorityQueue;
 
-public class MatrixMultiplicator
+public class MatrixMultiplicator extends Thread
 {
-    private double[][] matrixA;
-    private double[][] matrixB;
+    private Matrix matrixA;
+    private Matrix matrixB;
 
     private double[][] resultMatrix;
 
@@ -13,6 +13,7 @@ public class MatrixMultiplicator
 
     /**
      * Геттер для матрицы результата
+     *
      * @return Результатная матрица
      */
     public double[][] getResultMatrix() {
@@ -21,53 +22,64 @@ public class MatrixMultiplicator
 
     /**
      * Конструктор Мультипликатора матриц
-     * @param stringsA Количество строк матрицы А
-     * @param columnsA Количество столбцов матрицы А
-     * @param stringsB Количество строк в матрице В
-     * @param columnsB Количество столбцов в матрице В
+     *
+     * @param stringsA     Количество строк матрицы А
+     * @param columnsA     Количество столбцов матрицы А
+     * @param stringsB     Количество строк в матрице В
+     * @param columnsB     Количество столбцов в матрице В
      * @param threadsCount Количество нитей, рассчитывающих результат
      */
     public MatrixMultiplicator(int stringsA, int columnsA, int stringsB, int columnsB, int threadsCount) throws Exception {
         this.threadsCount = threadsCount;
-        this.matrixA = new double[stringsA][columnsA];
-        this.matrixB = new double[stringsB][columnsB];
+        this.matrixA = new Matrix(stringsA, columnsA);
+        this.matrixB = new Matrix(stringsB, columnsB);
+        ;
         if (!this.checkAvailabilityForMultiplication()) {
             throw new Exception("Матрицы невозможно перемножить");
         }
-        this.initializeMatrix();
-
         resultMatrix = new double[stringsA][columnsB];
     }
 
     /**
      * Проверка возможности перемножения матриц
-     * @return
-     * True, если количество столбцов матрицы А равно количеству строк матрицы В.
+     *
+     * @return True, если количество столбцов матрицы А равно количеству строк матрицы В.
      * False, если количество столбцов матрицы А не равно количеству строк матрицы В
      */
     private boolean checkAvailabilityForMultiplication() {
-        return this.matrixA[0].length == this.matrixB.length;
+        return this.matrixA.getMatrix()[0].length == this.matrixB.getMatrix().length;
     }
 
     /**
      * Инициализация матриц
+     *
      * @throws InterruptedException Внезапное прерывание работы программы во время инициализации матриц
      */
     private void initializeMatrix() throws InterruptedException {
-        MatrixInitialization matrixAInitialization = new MatrixInitialization(this.matrixA, (i, j) -> 5.2 * ((i + 1) - (j + 1)));
-        matrixAInitialization.start();
-
-        MatrixInitialization matrixBInitialization = new MatrixInitialization(this.matrixB, (i, j) -> ((i + 1) + (j + 1)) / (i + 1));
-        matrixBInitialization.start();
-
-        matrixAInitialization.join();
-        matrixBInitialization.join();
-
-        this.matrixA = matrixAInitialization.getResult();
-        this.matrixB = matrixBInitialization.getResult();
+        matrixA.initialize((i, j) -> 5.2 * ((i + 1) - (j + 1)));
+        matrixB.initialize((i, j) -> ((i + 1) + (j + 1)) / (i + 1));
     }
 
-    public void calculateResult() {
+    public void run() {
+        try {
+            this.initializeMatrix();
+            PriorityQueue queue = this.getQueue();
+            for (int i = 0; i < this.threadsCount; i++) {
 
+            }
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
+    private PriorityQueue<Integer> getQueue() {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < this.matrixA.getMatrix().length; i++) {
+            queue.offer(i);
+        }
+        return queue;
+    }
+
+
 }
