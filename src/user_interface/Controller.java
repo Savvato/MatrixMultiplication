@@ -3,6 +3,7 @@ package user_interface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -35,6 +36,9 @@ public class Controller
     @FXML
     public GridPane grid;
 
+    @FXML
+    public Button buttonCalculate;
+
     public void calculate() throws InterruptedException {
         int stringsA = Integer.parseInt(stringsACountField.getText());
         int columnsA = Integer.parseInt(columnsACountField.getText());
@@ -45,6 +49,7 @@ public class Controller
         MatrixMultiplicator multiplicator;
         try {
             long start = System.currentTimeMillis();
+
             multiplicator = new MatrixMultiplicator(stringsA, columnsA, stringsB, columnsB, threadsCount);
             multiplicator.start();
             multiplicator.join();
@@ -58,13 +63,8 @@ public class Controller
 
             this.timeConsumedMillisField.setText(String.valueOf(timeConsumedMillis));
 
-            double[][] result = multiplicator.getResultMatrix();
-
-            for (int i = 0; i < this.WRITE_LIMIT; i++) {
-                for (int j = 0; j < this.WRITE_LIMIT; j++) {
-                    grid.add(new Label(String.valueOf(result[i][j]) + "  "), i, j);
-                }
-            }
+            this.printResult(multiplicator);
+            buttonCalculate.setVisible(false);
 
         }
         catch (java.lang.OutOfMemoryError e) {
@@ -73,7 +73,7 @@ public class Controller
         catch (Exception e) {
             this.showMessage(
                     AlertType.ERROR,
-                    "Матрицы нельзя перемножить. Количество столбцов матрицы А должно быть равно количеству строк матрицы В"
+                    e.getMessage()
             );
         }
     }
@@ -90,4 +90,20 @@ public class Controller
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    /**
+     * Вывод результата.
+     * Выводится лишь кусок матрицы, размер указывается в константе WRITE_LIMIT
+     *
+     * @param multiplicator Поток перемножения матриц
+     */
+    private void printResult(MatrixMultiplicator multiplicator) {
+        double[][] result = multiplicator.getResultMatrix();
+        for (int i = 0; i < this.WRITE_LIMIT; i++) {
+            for (int j = 0; j < this.WRITE_LIMIT; j++) {
+                grid.add(new Label(String.valueOf(result[i][j]) + "  "), i, j);
+            }
+        }
+    }
+
 }

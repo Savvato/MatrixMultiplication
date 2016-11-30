@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="400.0" prefWidth="501.0" xmlns="http://javafx.com/javafx/8.0.111"
-      fx:controller="user_interface.Controller">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="mainBox" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="501.0"
+      xmlns="http://javafx.com/javafx/8.0.111" fx:controller="user_interface.Controller">
     <children>
         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="0.0">
             <children>
@@ -62,7 +62,8 @@
         </HBox>
         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="0.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#calculate" prefHeight="25.0" prefWidth="90.0" text="Расчет">
+                <Button fx:id="buttonCalculate" mnemonicParsing="false" onAction="#calculate" prefHeight="25.0"
+                        prefWidth="90.0" text="Расчет">
                     <font>
                         <Font size="14.0" />
                     </font>

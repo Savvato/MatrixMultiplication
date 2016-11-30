@@ -2,6 +2,9 @@ package matrix.threads;
 
 import matrix.MatrixCellFunction;
 
+/**
+ * Класс инициализирующий матрицу в потоке
+ */
 public class MatrixInitializationThread extends Thread
 {
     private double[][] matrix;
